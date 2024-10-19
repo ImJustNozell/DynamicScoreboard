@@ -20,7 +20,12 @@ class Score extends Command
   public function execute(CommandSender $sender, string $label, array $args): bool
   {
     if (!$sender instanceof Player) {
-      $sender->sendMessage("Solo los jugadores pueden usar este comando");
+      $sender->sendMessage("Solo los jugadores pueden usar este comando.");
+      return true;
+    }
+
+    if (empty($args) || !isset($args[0])) {
+      $sender->sendMessage("§cUso incorrecto del comando. Usa: /score <create|edit>");
       return true;
     }
 
@@ -31,16 +36,21 @@ class Score extends Command
           return true;
         }
         new ScoreboardCreate($sender);
-
         break;
 
       case "edit":
         if (!$sender->hasPermission("score.command.use")) {
-          $sender->sendMessage("§cNo tienes permiso para eliminar scoreboards.");
+          $sender->sendMessage("§cNo tienes permiso para editar scoreboards.");
+          return true;
         }
         new Scoreboard($sender);
         break;
+
+      default:
+        $sender->sendMessage("§cComando no válido. Usa: /score <create|edit>");
+        break;
     }
+
     return true;
   }
 }
