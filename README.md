@@ -2,11 +2,11 @@
 
 ---
 
-![GitHub followers](https://img.shields.io/github/followers/imjustnozell) ![GitHub Repo stars](https://img.shields.io/github/stars/imjustnozell/dinamicscoreboard) ![GitHub language count](https://img.shields.io/github/languages/count/imjustnozell/dinamicscoreboard)
-![GitHub top language](https://img.shields.io/github/languages/top/imjustnozell/dinamicscoreboard)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/t/imjustnozell/dinamicscoreboard)
-![GitHub contributors](https://img.shields.io/github/contributors/imjustnozell/dinamicscoreboard)
-![GitHub Created At](https://img.shields.io/github/created-at/imjustnozell/dinamicscoreboard)
+![GitHub followers](https://img.shields.io/github/followers/imjustnozell) ![GitHub Repo stars](https://img.shields.io/github/stars/imjustnozell/dynamicscoreboard) ![GitHub language count](https://img.shields.io/github/languages/count/imjustnozell/dynamicscoreboard)
+![GitHub top language](https://img.shields.io/github/languages/top/imjustnozell/dynamicscoreboard)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/imjustnozell/dynamicscoreboard)
+![GitHub contributors](https://img.shields.io/github/contributors/imjustnozell/dynamicscoreboard)
+![GitHub Created At](https://img.shields.io/github/created-at/imjustnozell/dynamicscoreboard)
 
 <table align="center">
 <tr border="none">
