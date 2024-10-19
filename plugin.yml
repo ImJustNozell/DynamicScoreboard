@@ -8,5 +8,5 @@ description: ScoreboardApi created by Nozell
 
 permissions:
   score.command.use:
-    description: Allows the player to use warp commands
+    description: Allows the player to use scoreboard create/edit
     default: op
