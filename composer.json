@@ -1,0 +1,7 @@
+{
+    "require": {
+        "pocketmine/pocketmine-mp": "^5.19",
+        "nozell/formsui": "^1.0",
+        "nozell/database": "^1.0"
+    }
+}
