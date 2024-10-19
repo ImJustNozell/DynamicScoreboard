@@ -30,8 +30,7 @@ class Score extends Command
           $sender->sendMessage("§cNo tienes permiso para agregar scoreboards.");
           return true;
         }
-        $score = new ScoreboardCreate($sender);
-
+        new ScoreboardCreate($sender);
 
         break;
 
@@ -39,7 +38,7 @@ class Score extends Command
         if (!$sender->hasPermission("score.command.use")) {
           $sender->sendMessage("§cNo tienes permiso para eliminar scoreboards.");
         }
-        $score = new Scoreboard($sender);
+        new Scoreboard($sender);
         break;
     }
     return true;
