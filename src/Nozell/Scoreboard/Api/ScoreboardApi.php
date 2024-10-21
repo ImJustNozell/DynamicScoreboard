@@ -44,6 +44,6 @@ class ScoreboardApi extends Task
 
     public function reload(): void
     {
-        ReloadFactory::reloadPlugin();
+        ReloadFactory::reloadMainPlugin();
     }
 }
