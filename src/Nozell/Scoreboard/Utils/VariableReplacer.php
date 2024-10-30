@@ -9,7 +9,7 @@ class VariableReplacer
 {
     public static function getReplacements(Player $player, string $worldName): array
     {
-        return [
+        $replacements = [
             "{date}" => date('d/m/Y'),
             "{tps}" => Server::getInstance()->getTicksPerSecond(),
             "{world}" => $worldName,
@@ -17,6 +17,10 @@ class VariableReplacer
             "{player_ping}" => $player->getNetworkSession()->getPing() . "ms",
             "{players_online}" => strval(count(Server::getInstance()->getOnlinePlayers()))
         ];
+
+        $replacements = PluginTags::addVariables($player, $replacements);
+
+        return $replacements;
     }
 
     public static function replaceVariables(string $text, array $replacements): string
