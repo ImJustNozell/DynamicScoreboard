@@ -4,15 +4,16 @@ namespace Nozell\Scoreboard\menus;
 
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
-use Nozell\Database\YamlDatabase;
+use Nozell\Database\DatabaseFactory;
 use Nozell\Scoreboard\Main;
 
 class Scoreboard extends CustomForm
 {
-
     public function __construct(Player $player)
     {
-        $database = new YamlDatabase(Main::getInstance()->getDataFolder() . "scoreboard.yml", true);
+        $main = Main::getInstance();
+        $dbType = $main->getDatabaseType();
+        $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
 
         $worldNames = $database->getAllSections();
 
@@ -27,11 +28,13 @@ class Scoreboard extends CustomForm
             }
 
             $selectedWorld = $worldNames[$data[0]];
-            (new EditScoreboard($player, $selectedWorld))->sendToPlayer($player);
+
+            (new EditScoreboard($player, $selectedWorld));
         });
 
         $this->setTitle("Seleccionar Mundo para Editar Scoreboard");
         $this->addDropdown("Selecciona el Mundo", $worldNames);
+
         $player->sendForm($this);
     }
 }

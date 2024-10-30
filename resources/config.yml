@@ -1,0 +1,2 @@
+database:
+  type: sqlite # Puedes cambiar entre yaml, json, sqlite

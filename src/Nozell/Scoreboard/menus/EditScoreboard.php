@@ -4,16 +4,17 @@ namespace Nozell\Scoreboard\menus;
 
 use pocketmine\player\Player;
 use Vecnavium\FormsUI\CustomForm;
-use Nozell\Database\YamlDatabase;
+use Nozell\Database\DatabaseFactory;
 use Nozell\Scoreboard\Main;
 use Nozell\Scoreboard\Api\ScoreboardApi;
 
 class EditScoreboard extends CustomForm
 {
-
     public function __construct(Player $player, string $worldName)
     {
-        $database = new YamlDatabase(Main::getInstance()->getDataFolder() . "scoreboard.yml", true);
+        $main = Main::getInstance();
+        $dbType = $main->getDatabaseType();
+        $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
 
         if (!$database->sectionExists($worldName)) {
             $player->sendMessage("§cEl mundo seleccionado no tiene un Scoreboard asignado.");
@@ -23,7 +24,7 @@ class EditScoreboard extends CustomForm
         $currentTitle = $database->get($worldName, "title") ?? "Título predeterminado";
         $currentLines = $database->get($worldName, "lines") ?? [];
 
-        parent::__construct(function (Player $player, ?array $data) use ($worldName, $currentLines) {
+        parent::__construct(function (Player $player, ?array $data, $main) use ($worldName, $currentLines, $dbType) {
             if ($data === null) {
                 return;
             }
@@ -37,9 +38,10 @@ class EditScoreboard extends CustomForm
                 }
             }
 
-            $database = new YamlDatabase(Main::getInstance()->getDataFolder() . "scoreboard.yml", true);
+            $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
             $database->set($worldName, "title", $title);
             $database->set($worldName, "lines", $lines);
+
             $score = new ScoreboardApi();
             $score->reload();
 

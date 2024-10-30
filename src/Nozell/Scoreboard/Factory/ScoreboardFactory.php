@@ -5,13 +5,12 @@ namespace Nozell\Scoreboard\Factory;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
-use Nozell\Database\YamlDatabase;
+use Nozell\Database\DatabaseFactory;
 use Nozell\Scoreboard\Main;
 use Nozell\Scoreboard\Utils\VariableReplacer;
 
 class ScoreboardFactory
 {
-
     public static function createScoreboard(Player $player, string $worldName): void
     {
         $scoreboard = Main::getInstance()->getScoreboard();
@@ -36,11 +35,17 @@ class ScoreboardFactory
 
     private static function getTitleForWorld(string $worldName): string
     {
-        return (new YamlDatabase(Main::getInstance()->getDataFolder() . "scoreboard.yml", true))->get($worldName, 'title') ?? 'Default Title';
+        $main = Main::getInstance();
+        $database = DatabaseFactory::create($main->getDatabaseFile(), $main->getDatabaseType());
+
+        return $database->get($worldName, 'title') ?? 'Default Title';
     }
 
     private static function getLinesForWorld(string $worldName): array
     {
-        return (new YamlDatabase(Main::getInstance()->getDataFolder() . "scoreboard.yml", true))->get($worldName, 'lines') ?? [];
+        $main = Main::getInstance();
+        $database = DatabaseFactory::create($main->getDatabaseFile(), $main->getDatabaseType());
+
+        return $database->get($worldName, 'lines') ?? [];
     }
 }

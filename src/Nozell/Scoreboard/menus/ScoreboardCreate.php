@@ -5,23 +5,25 @@ namespace Nozell\Scoreboard\menus;
 use pocketmine\player\Player;
 use pocketmine\Server;
 use Vecnavium\FormsUI\CustomForm;
-use Nozell\Database\YamlDatabase;
+use Nozell\Database\DatabaseFactory;
 use Nozell\Scoreboard\Main;
 use Nozell\Scoreboard\Api\ScoreboardApi;
 
 class ScoreboardCreate extends CustomForm
 {
-
     private array $worldNames;
 
     public function __construct(Player $player)
     {
-        $database = new YamlDatabase(Main::getInstance()->getDataFolder() . "scoreboard.yml", true);
+        $main = Main::getInstance();
+        $dbType = $main->getDatabaseType();
+        $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
 
         $worldManager = Server::getInstance()->getWorldManager();
         $this->worldNames = [];
         foreach ($worldManager->getWorlds() as $world) {
             $worldName = $world->getFolderName();
+
             if (!$database->sectionExists($worldName)) {
                 $this->worldNames[] = $worldName;
             }
@@ -63,11 +65,14 @@ class ScoreboardCreate extends CustomForm
             }
         }
 
-        $database = new YamlDatabase(Main::getInstance()->getDataFolder() . "scoreboard.yml", true);
+        $main = Main::getInstance();
+        $dbType = $main->getDatabaseType();
+        $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
+
         $database->set($worldName, "title", $title);
         $database->set($worldName, "lines", $lines);
-        $score = new ScoreboardApi();
 
+        $score = new ScoreboardApi();
         $score->reload();
 
         $player->sendMessage("§aScoreboard creado para el mundo '$worldName' exitosamente.");
