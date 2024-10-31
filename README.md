@@ -51,9 +51,7 @@
 </p>
 
 </td>
-<td width="50%" align="center">
-
-<img src="https://metrics.lecoq.io/imjustnozell?template=classic&achievements=1&achievements.threshold=C&achievements.secrets=true&achievements.display=compact&achievements.limit=0&config.timezone=America%2FLima" alt="Metrics for imjustnozell">
+<td width="50%" align="center"><img src="https://raw.githubusercontent.com/TanZng/TanZng/master/assets/hollor_knight3.gif" width="200"/> 
 
   </td>
 </tr>
