@@ -8,8 +8,6 @@ use pocketmine\Server;
 
 class ReloadFactory
 {
-    private static Main $main;
-
     public static function reloadPlugin(Plugin $plugin): void
     {
         $pluginManager = Server::getInstance()->getPluginManager();
@@ -23,12 +21,6 @@ class ReloadFactory
 
     public static function reloadMainPlugin(): void
     {
-        self::reloadPlugin(self::getMain());
-    }
-
-    public static function  getMain(): Main
-    {
-
-        return self::$main;
+        self::reloadPlugin(Main::getInstance());
     }
 }

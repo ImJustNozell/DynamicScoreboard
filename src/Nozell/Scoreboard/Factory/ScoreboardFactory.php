@@ -7,14 +7,13 @@ use Nozell\Scoreboard\Utils\VariableReplacer;
 use Nozell\Scoreboard\Main;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\Server;
 
 class ScoreboardFactory
 {
-    private static Main $main;
-
     public static function createScoreboard(Player $player, string $worldName): void
     {
-        $scoreboard = self::getMain()->getScoreboard();
+        $scoreboard = Main::getInstance()->getScoreboard();
 
         $title = self::getTitleForWorld($worldName);
         $lines = self::getLinesForWorld($worldName);
@@ -36,7 +35,7 @@ class ScoreboardFactory
 
     private static function getTitleForWorld(string $worldName): string
     {
-        $main = self::getMain();
+        $main = Main::getInstance();
         $database = DatabaseFactory::create($main->getDatabaseFile(), $main->getDatabaseType());
 
         return $database->get($worldName, 'title') ?? 'Default Title';
@@ -44,15 +43,9 @@ class ScoreboardFactory
 
     private static function getLinesForWorld(string $worldName): array
     {
-        $main = self::getMain();
+        $main = Main::getInstance();
         $database = DatabaseFactory::create($main->getDatabaseFile(), $main->getDatabaseType());
 
         return $database->get($worldName, 'lines') ?? [];
-    }
-
-    public static function  getMain(): Main
-    {
-
-        return self::$main;
     }
 }

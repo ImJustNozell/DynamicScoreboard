@@ -13,11 +13,10 @@ use pocketmine\Server;
 class ScoreboardApi extends Task
 {
     private $database;
-    private static Main $main;
 
     public function __construct()
     {
-        $main = self::$main;
+        $main = Main::getInstance();
         $this->database = DatabaseFactory::create($main->getDatabaseFile(), $main->getDatabaseType());
 
         $this->setHandler($main->getScheduler()->scheduleRepeatingTask($this, 20));
@@ -47,5 +46,4 @@ class ScoreboardApi extends Task
     {
         ReloadFactory::reloadMainPlugin();
     }
-
 }

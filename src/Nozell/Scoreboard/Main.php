@@ -8,16 +8,19 @@ use Nozell\Scoreboard\Api\ScoreboardApi;
 use Nozell\Scoreboard\commands\Score;
 use Nozell\Scoreboard\scoreboard\Scoreboard;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\SingletonTrait;
 use pocketmine\utils\TextFormat;
 use pocketmine\Server;
 
 class Main extends PluginBase
 {
+    use SingletonTrait;
 
     private Scoreboard $scoreboard;
 
     public function onEnable(): void
     {
+        self::setInstance($this);
         $startTime = microtime(true);
 
         $this->saveDefaultConfig();

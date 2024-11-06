@@ -12,14 +12,11 @@ use Nozell\Scoreboard\Api\ScoreboardApi;
 class ScoreboardCreate extends CustomForm
 {
     private array $worldNames;
-    private Main $main;
 
     public function __construct(Player $player)
     {
-        $main = $this->getMain();
-
+        $main = Main::getInstance();
         $dbType = $main->getDatabaseType();
-
         $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
 
         $worldManager = Server::getInstance()->getWorldManager();
@@ -68,7 +65,7 @@ class ScoreboardCreate extends CustomForm
             }
         }
 
-        $main = $this->getMain();
+        $main = Main::getInstance();
         $dbType = $main->getDatabaseType();
         $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
 
@@ -79,11 +76,5 @@ class ScoreboardCreate extends CustomForm
         $score->reload();
 
         $player->sendMessage("§aScoreboard creado para el mundo '$worldName' exitosamente.");
-    }
-
-    public function  getMain(): Main
-    {
-
-        return $this->main;
     }
 }
