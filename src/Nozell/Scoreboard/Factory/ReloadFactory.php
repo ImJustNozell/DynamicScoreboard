@@ -2,12 +2,14 @@
 
 namespace Nozell\Scoreboard\Factory;
 
-use pocketmine\Server;
-use pocketmine\plugin\Plugin;
 use Nozell\Scoreboard\Main;
+use pocketmine\plugin\Plugin;
+use pocketmine\Server;
 
 class ReloadFactory
 {
+    private static Main $main;
+
     public static function reloadPlugin(Plugin $plugin): void
     {
         $pluginManager = Server::getInstance()->getPluginManager();
@@ -21,6 +23,12 @@ class ReloadFactory
 
     public static function reloadMainPlugin(): void
     {
-        self::reloadPlugin(Main::getInstance());
+        self::reloadPlugin(self::getMain());
+    }
+
+    public static function  getMain(): Main
+    {
+
+        return self::$main;
     }
 }

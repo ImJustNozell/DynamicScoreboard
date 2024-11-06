@@ -2,21 +2,22 @@
 
 namespace Nozell\Scoreboard\Api;
 
+use Nozell\Database\DatabaseFactory;
+use Nozell\Scoreboard\Factory\ReloadFactory;
+use Nozell\Scoreboard\Factory\ScoreboardFactory;
+use Nozell\Scoreboard\Main;
 use pocketmine\player\Player as Pl;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
-use Nozell\Scoreboard\Main;
-use Nozell\Database\DatabaseFactory;
-use Nozell\Scoreboard\Factory\ScoreboardFactory;
-use Nozell\Scoreboard\Factory\ReloadFactory;
 
 class ScoreboardApi extends Task
 {
     private $database;
+    private static Main $main;
 
     public function __construct()
     {
-        $main = Main::getInstance();
+        $main = self::$main;
         $this->database = DatabaseFactory::create($main->getDatabaseFile(), $main->getDatabaseType());
 
         $this->setHandler($main->getScheduler()->scheduleRepeatingTask($this, 20));
@@ -30,11 +31,13 @@ class ScoreboardApi extends Task
     public function updateScoreboard(): void
     {
         foreach (Server::getInstance()->getOnlinePlayers() as $player) {
-            if (!$player instanceof Pl) return;
+            if (!$player instanceof Pl)
+                return;
 
             $worldName = $player->getWorld()->getFolderName();
 
-            if (!$this->database->sectionExists($worldName)) return;
+            if (!$this->database->sectionExists($worldName))
+                return;
 
             ScoreboardFactory::createScoreboard($player, $worldName);
         }
@@ -44,4 +47,5 @@ class ScoreboardApi extends Task
     {
         ReloadFactory::reloadMainPlugin();
     }
+
 }

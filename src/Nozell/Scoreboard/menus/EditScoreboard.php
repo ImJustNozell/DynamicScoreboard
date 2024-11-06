@@ -10,9 +10,10 @@ use Nozell\Scoreboard\Api\ScoreboardApi;
 
 class EditScoreboard extends CustomForm
 {
+    private Main $main;
     public function __construct(Player $player, string $worldName)
     {
-        $main = Main::getInstance();
+        $main = $this->getMain();
         $dbType = $main->getDatabaseType();
         $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
 
@@ -58,5 +59,11 @@ class EditScoreboard extends CustomForm
         }
 
         $player->sendForm($this);
+    }
+
+    public function  getMain(): Main
+    {
+
+        return $this->main;
     }
 }

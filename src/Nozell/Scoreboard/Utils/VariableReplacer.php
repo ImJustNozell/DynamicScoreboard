@@ -10,12 +10,12 @@ class VariableReplacer
     public static function getReplacements(Player $player, string $worldName): array
     {
         $replacements = [
-            "{date}" => date('d/m/Y'),
-            "{tps}" => Server::getInstance()->getTicksPerSecond(),
-            "{world}" => $worldName,
-            "{player_name}" => $player->getName(),
-            "{player_ping}" => $player->getNetworkSession()->getPing() . "ms",
-            "{players_online}" => strval(count(Server::getInstance()->getOnlinePlayers()))
+            '{date}' => date('d/m/Y'),
+            '{tps}' => Server::getInstance()->getTicksPerSecond(),
+            '{world}' => $worldName,
+            '{player_name}' => $player->getName(),
+            '{player_ping}' => $player->getNetworkSession()->getPing() . 'ms',
+            '{players_online}' => strval(count(Server::getInstance()->getOnlinePlayers()))
         ];
 
         $replacements = PluginTags::addVariables($player, $replacements);

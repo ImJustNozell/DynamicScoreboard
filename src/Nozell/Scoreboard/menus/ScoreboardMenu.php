@@ -9,9 +9,10 @@ use Nozell\Scoreboard\Main;
 
 class Scoreboard extends CustomForm
 {
+    private Main $main;
     public function __construct(Player $player)
     {
-        $main = Main::getInstance();
+        $main = $this->getMain();
         $dbType = $main->getDatabaseType();
         $database = DatabaseFactory::create($main->getDatabaseFile(), $dbType);
 
@@ -36,5 +37,11 @@ class Scoreboard extends CustomForm
         $this->addDropdown("Selecciona el Mundo", $worldNames);
 
         $player->sendForm($this);
+    }
+
+    public function  getMain(): Main
+    {
+
+        return $this->main;
     }
 }

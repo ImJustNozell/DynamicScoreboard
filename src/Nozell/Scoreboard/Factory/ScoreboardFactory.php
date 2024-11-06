@@ -2,25 +2,26 @@
 
 namespace Nozell\Scoreboard\Factory;
 
-use pocketmine\player\Player;
-use pocketmine\Server;
-use pocketmine\utils\TextFormat;
 use Nozell\Database\DatabaseFactory;
-use Nozell\Scoreboard\Main;
 use Nozell\Scoreboard\Utils\VariableReplacer;
+use Nozell\Scoreboard\Main;
+use pocketmine\player\Player;
+use pocketmine\utils\TextFormat;
 
 class ScoreboardFactory
 {
+    private static Main $main;
+
     public static function createScoreboard(Player $player, string $worldName): void
     {
-        $scoreboard = Main::getInstance()->getScoreboard();
+        $scoreboard = self::getMain()->getScoreboard();
 
         $title = self::getTitleForWorld($worldName);
         $lines = self::getLinesForWorld($worldName);
 
         $replacements = VariableReplacer::getReplacements($player, $worldName);
 
-        $scoreboard->new($player, "Scoreboard", TextFormat::colorize(VariableReplacer::replaceVariables($title, $replacements)));
+        $scoreboard->new($player, 'Scoreboard', TextFormat::colorize(VariableReplacer::replaceVariables($title, $replacements)));
 
         $lines = VariableReplacer::replaceLines($lines, $replacements);
 
@@ -35,7 +36,7 @@ class ScoreboardFactory
 
     private static function getTitleForWorld(string $worldName): string
     {
-        $main = Main::getInstance();
+        $main = self::getMain();
         $database = DatabaseFactory::create($main->getDatabaseFile(), $main->getDatabaseType());
 
         return $database->get($worldName, 'title') ?? 'Default Title';
@@ -43,9 +44,15 @@ class ScoreboardFactory
 
     private static function getLinesForWorld(string $worldName): array
     {
-        $main = Main::getInstance();
+        $main = self::getMain();
         $database = DatabaseFactory::create($main->getDatabaseFile(), $main->getDatabaseType());
 
         return $database->get($worldName, 'lines') ?? [];
+    }
+
+    public static function  getMain(): Main
+    {
+
+        return self::$main;
     }
 }
