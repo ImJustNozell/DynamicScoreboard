@@ -6,7 +6,6 @@ use Nozell\Database\DatabaseFactory;
 use Nozell\PlaceholderAPI\PlaceholderAPI;
 use Nozell\Scoreboard\Main;
 use pocketmine\player\Player;
-use pocketmine\utils\TextFormat;
 
 class ScoreboardFactory
 {
