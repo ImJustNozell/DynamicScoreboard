@@ -30,13 +30,15 @@ class ScoreboardApi extends Task
     public function updateScoreboard(): void
     {
         foreach (Server::getInstance()->getOnlinePlayers() as $player) {
-            if (!$player instanceof Pl)
+            if (!$player instanceof Pl) {
                 return;
+            }
 
             $worldName = $player->getWorld()->getFolderName();
 
-            if (!$this->database->sectionExists($worldName))
-                return;
+            if (!$this->database->sectionExists($worldName)) {
+                continue;
+            }
 
             ScoreboardFactory::createScoreboard($player, $worldName);
         }
