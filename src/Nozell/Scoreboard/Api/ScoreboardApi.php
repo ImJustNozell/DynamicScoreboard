@@ -3,7 +3,6 @@
 namespace Nozell\Scoreboard\Api;
 
 use Nozell\Scoreboard\Factory\ScoreboardFactory;
-use Nozell\Scoreboard\Session\SessionManager;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 use pocketmine\Server;
