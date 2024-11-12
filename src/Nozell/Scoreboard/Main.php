@@ -6,6 +6,7 @@ namespace Nozell\Scoreboard;
 
 use Nozell\Scoreboard\Api\ScoreboardApi;
 use Nozell\Scoreboard\commands\Score;
+use Nozell\Scoreboard\Listener\ScoreboardListener;
 use Nozell\Scoreboard\scoreboard\Scoreboard;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
@@ -35,6 +36,7 @@ class Main extends PluginBase
         new ScoreboardApi();
 
         Server::getInstance()->getCommandMap()->register('score', new Score());
+        Server::getInstance()->getPluginManager()->registerEvents(new ScoreboardListener(), $this);
 
         Server::getInstance()->getLogger()->debug('DynScore enabling');
 

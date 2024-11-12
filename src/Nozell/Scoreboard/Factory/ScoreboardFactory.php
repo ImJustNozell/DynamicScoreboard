@@ -5,6 +5,7 @@ namespace Nozell\Scoreboard\Factory;
 use Nozell\Database\DatabaseFactory;
 use Nozell\PlaceholderAPI\PlaceholderAPI;
 use Nozell\Scoreboard\Main;
+use Nozell\Scoreboard\Session\SessionManager;
 use pocketmine\player\Player;
 
 class ScoreboardFactory
@@ -25,46 +26,29 @@ class ScoreboardFactory
         });
     }
 
-    public static function removeCustomScoreboard(string $name): void
+    public static function getPlayerScoreboard(Player $player): string
     {
-        self::$customScoreboards = array_filter(self::$customScoreboards, function ($scoreboard) use ($name) {
-            return $scoreboard['name'] !== $name;
-        });
-
-        self::$customScoreboards = array_values(self::$customScoreboards);
-    }
-
-    public static function resetScoreboard(): void
-    {
-        self::$customScoreboards = [];
-    }
-
-    public static function getActualScoreboard(Player $player, string $worldName): array
-    {
-        if (!empty(self::$customScoreboards)) {
-            $highestPriorityScoreboard = self::$customScoreboards[0];
-            return [
-                'title' => $highestPriorityScoreboard['title'],
-                'lines' => $highestPriorityScoreboard['lines']
-            ];
-        }
-
-        $title = self::getTitleForWorld($worldName);
-        $lines = self::getLinesForWorld($worldName);
-
-        return [
-            'title' => $title,
-            'lines' => $lines
-        ];
+        $session = SessionManager::getSession($player);
+        return $session->getScoreboard();
     }
 
     public static function createScoreboard(Player $player, string $worldName): void
     {
         $scoreboard = Main::getInstance()->getScoreboard();
+        $scoreboardName = self::getPlayerScoreboard($player);
 
-        $actualScoreboard = self::getActualScoreboard($player, $worldName);
-        $title = $actualScoreboard['title'];
-        $lines = $actualScoreboard['lines'];
+        $actualScoreboard = array_filter(self::$customScoreboards, function ($scoreboard) use ($scoreboardName) {
+            return $scoreboard['name'] === $scoreboardName;
+        });
+
+        if (!empty($actualScoreboard)) {
+            $actualScoreboard = array_shift($actualScoreboard);
+            $title = $actualScoreboard['title'];
+            $lines = $actualScoreboard['lines'];
+        } else {
+            $title = self::getTitleForWorld($worldName);
+            $lines = self::getLinesForWorld($worldName);
+        }
 
         $filteredLines = PlaceholderAPI::getRegistry()->filterTags($lines, $player);
 
@@ -78,7 +62,6 @@ class ScoreboardFactory
             }
         }
     }
-
 
     private static function getTitleForWorld(string $worldName): string
     {
