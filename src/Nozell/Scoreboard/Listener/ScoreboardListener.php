@@ -12,7 +12,6 @@ class ScoreboardListener implements Listener
     public function onPlayerJoin(PlayerJoinEvent $event): void
     {
         $player = $event->getPlayer();
-        
         SessionManager::createSession($player);
     }
 

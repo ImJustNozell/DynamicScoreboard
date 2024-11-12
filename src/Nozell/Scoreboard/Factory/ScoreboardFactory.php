@@ -14,35 +14,41 @@ class ScoreboardFactory
 
     public static function createCustomScoreboard(string $name, string $title, array $lines, int $priority): void
     {
-        self::$customScoreboards[] = [
-            'name' => $name,
+        self::$customScoreboards[$name] = [
             'title' => $title,
             'lines' => $lines,
             'priority' => $priority
         ];
-
-        usort(self::$customScoreboards, function ($a, $b) {
-            return $a['priority'] <=> $b['priority'];
-        });
     }
 
-    public static function getPlayerScoreboard(Player $player): string
+    public static function removeCustomScoreboard(string $name): void
     {
-        $session = SessionManager::getSession($player);
-        return $session->getScoreboard();
+        if (isset(self::$customScoreboards[$name])) {
+            unset(self::$customScoreboards[$name]);
+        }
     }
 
     public static function createScoreboard(Player $player, string $worldName): void
     {
-        $scoreboard = Main::getInstance()->getScoreboard();
-        $scoreboardName = self::getPlayerScoreboard($player);
+        $main = Main::getInstance();
+        $scoreboard = $main->getScoreboard();
 
-        $actualScoreboard = array_filter(self::$customScoreboards, function ($scoreboard) use ($scoreboardName) {
-            return $scoreboard['name'] === $scoreboardName;
-        });
+        if ($scoreboard === null) {
+            $main->getLogger()->error("Scoreboard instance is null. Check your Main class setup.");
+            return;
+        }
 
-        if (!empty($actualScoreboard)) {
-            $actualScoreboard = array_shift($actualScoreboard);
+        $session = SessionManager::getSession($player);
+        $scoreboardName = $session->getScoreboard();
+
+        $title = '';
+        $lines = [];
+
+        if ($scoreboardName === 'default') {
+            $title = self::getTitleForWorld($worldName);
+            $lines = self::getLinesForWorld($worldName);
+        } elseif (isset(self::$customScoreboards[$scoreboardName])) {
+            $actualScoreboard = self::$customScoreboards[$scoreboardName];
             $title = $actualScoreboard['title'];
             $lines = $actualScoreboard['lines'];
         } else {
