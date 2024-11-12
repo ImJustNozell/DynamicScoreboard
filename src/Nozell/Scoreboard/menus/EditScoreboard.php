@@ -24,7 +24,7 @@ class EditScoreboard extends CustomForm
         $currentTitle = $database->get($worldName, "title") ?? "Título predeterminado";
         $currentLines = $database->get($worldName, "lines") ?? [];
 
-        parent::__construct(function (Player $player, ?array $data, $main) use ($worldName, $currentLines, $dbType) {
+        parent::__construct(function (Player $player, ?array $data) use ($worldName, $main, $dbType) {
             if ($data === null) {
                 return;
             }

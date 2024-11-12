@@ -2,8 +2,8 @@
 
 namespace Nozell\Scoreboard\commands;
 
-use Nozell\Scoreboard\menus\Scoreboard;
 use Nozell\Scoreboard\menus\ScoreboardCreate;
+use Nozell\Scoreboard\menus\ScoreboardMenu;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
@@ -42,7 +42,7 @@ class Score extends Command
                     $sender->sendMessage('§cNo tienes permiso para editar scoreboards.');
                     return true;
                 }
-                new Scoreboard($sender);
+                new ScoreboardMenu($sender);
                 break;
 
             default:

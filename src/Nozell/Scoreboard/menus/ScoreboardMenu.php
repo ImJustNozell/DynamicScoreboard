@@ -7,7 +7,7 @@ use Vecnavium\FormsUI\CustomForm;
 use Nozell\Database\DatabaseFactory;
 use Nozell\Scoreboard\Main;
 
-class Scoreboard extends CustomForm
+class ScoreboardMenu extends CustomForm
 {
     public function __construct(Player $player)
     {

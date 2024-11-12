@@ -66,16 +66,19 @@ class ScoreboardFactory
         $title = $actualScoreboard['title'];
         $lines = $actualScoreboard['lines'];
 
+        $filteredLines = PlaceholderAPI::getRegistry()->filterTags($lines, $player);
+
         $scoreboard->new($player, 'Scoreboard', $title);
 
         $i = 0;
-        foreach ($lines as $line) {
+        foreach ($filteredLines as $line) {
             if ($i < 15) {
                 $i++;
                 $scoreboard->setLine($player, $i, PlaceholderAPI::getRegistry()->parsePlaceholders($line, $player));
             }
         }
     }
+
 
     private static function getTitleForWorld(string $worldName): string
     {
