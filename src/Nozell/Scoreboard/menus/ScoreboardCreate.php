@@ -8,6 +8,7 @@ use Vecnavium\FormsUI\CustomForm;
 use Nozell\Database\DatabaseFactory;
 use Nozell\Scoreboard\Main;
 use Nozell\Scoreboard\Api\ScoreboardApi;
+use Nozell\Scoreboard\Factory\ReloadFactory;
 
 class ScoreboardCreate extends CustomForm
 {
@@ -72,8 +73,7 @@ class ScoreboardCreate extends CustomForm
         $database->set($worldName, "title", $title);
         $database->set($worldName, "lines", $lines);
 
-        $score = new ScoreboardApi();
-        $score->reload();
+        ReloadFactory::reloadMainPlugin();
 
         $player->sendMessage("§aScoreboard creado para el mundo '$worldName' exitosamente.");
     }
