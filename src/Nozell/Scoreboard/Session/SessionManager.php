@@ -27,17 +27,18 @@ class SessionManager
 
         return self::$sessions[$xuid];
     }
+    public static function removeSession(Player $player): void
+    {
+        $xuid = $player->getXuid();
+        unset(self::$sessions[$xuid]);
+    }
 
     public static function getAllSessions(): array
     {
         return self::$sessions;
     }
 
-    public static function removeSession(Player $player): void
-    {
-        $xuid = $player->getXuid();
-        unset(self::$sessions[$xuid]);
-    }
+    
 
     public static function clearAllSessions(): void
     {

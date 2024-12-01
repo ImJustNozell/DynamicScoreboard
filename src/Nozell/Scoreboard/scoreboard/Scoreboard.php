@@ -10,9 +10,11 @@ use pocketmine\network\mcpe\protocol\{
     SetScorePacket
 };
 use pocketmine\network\mcpe\protocol\types\ScorePacketEntry;
+use pocketmine\utils\SingletonTrait;
 
 class Scoreboard
 {
+    use SingletonTrait;
     private $scoreboards = [];
 
     public function new(Player $player, string $objectiveName, string $displayName): void
