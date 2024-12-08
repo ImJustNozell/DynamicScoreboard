@@ -1,12 +1,13 @@
+---
 name: DinamicScoreboard
 main: Nozell\Scoreboard\Main
 api: 5.0.0
-version: 0.0.1
+version: "0.0"
 author: Nozell
 website: https://github.com/ImJustNozell
 description: ScoreboardApi created by Nozell
-
 permissions:
   score.command.use:
     description: Allows the player to use scoreboard create/edit
     default: op
+...
