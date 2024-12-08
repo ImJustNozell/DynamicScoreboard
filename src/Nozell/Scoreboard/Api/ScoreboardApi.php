@@ -35,9 +35,4 @@ class ScoreboardApi extends Task
             ScoreboardFactory::createScoreboard($player, $worldName, $scoreboardName);
         }
     }
-
-    public function reload(): void
-    {
-        ReloadFactory::reloadMainPlugin();
-    }
 }
